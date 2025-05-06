@@ -68,4 +68,9 @@ public class Livro {
         return "ID: " + id + ", ISBN: " + isbn + ", Título: " + titulo
                 + ", Autor: " + autor + ", Estado: " + getEstado();
     }
+
+    public boolean isDisponivel() {
+        return disponivel;
+    }
+
 }
