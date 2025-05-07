@@ -41,7 +41,7 @@ public class Biblioteca {
         return null;
     }
 
-    // Registrar empréstimo
+    // Registrar empréstimo (verifica se o livro está disponível)
     public void registarEmprestimo(int idLivro, int idMembro, Date dataEmprestimo, Date dataDevolucaoPrevista) {
         Livro livro = procurarLivroPorId(idLivro);
         if (livro != null && livro.isDisponivel()) {
@@ -67,5 +67,26 @@ public class Biblioteca {
     // Retorna todos os empréstimos
     public ArrayList<Emprestimo> getEmprestimos() {
         return emprestimos;
+    }
+    
+    // Lista todos os livros
+    public void listarLivros() {
+        for (int i = 0; i < livros.size(); i++) {
+            System.out.println(livros.get(i).mostrarInformacoes());
+        }
+    }
+
+    // Lista todos os membros
+    public void listarMembros() {
+        for (int i = 0; i < membros.size(); i++) {
+            System.out.println(membros.get(i).mostrarMembro());
+        }
+    }
+
+    // Lista todos os empréstimos
+    public void listarEmprestimos() {
+        for (int i = 0; i < emprestimos.size(); i++) {
+            System.out.println(emprestimos.get(i).mostrarEmprestimo());
+        }
     }
 }
