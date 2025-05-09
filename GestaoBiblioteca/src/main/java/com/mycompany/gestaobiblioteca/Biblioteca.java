@@ -30,7 +30,28 @@ public class Biblioteca {
         return null;
     }
 
+    public ArrayList<Livro> getLivros() {
+        return livros;
+    }
+
+    public ArrayList<Membro> getMembros() { // Verifica o tipo de retorno
+        return membros;
+    }
+
+   
+    //remover os livos, exceto se este esteja atualmente emprestado.
+    public void removerLivroPorId(int id) {
+        for (Emprestimo emprestimo : emprestimos) {
+            if (emprestimo.getIdLivro() == id && emprestimo.getDataDevolucaoEfetiva() == null) {
+                System.out.println("Tentativa de remover livro (ID: " + id + ") que está emprestado. Remoção não permitida.");
+                return;
+            }
+
+        }
+        livros.removeIf(livro -> livro.getId() == id);
+    }
     // Procurar membro por ID
+
     public Membro procurarMembroPorId(int id) {
         for (int i = 0; i < membros.size(); i++) {
             Membro membro = membros.get(i);
@@ -50,6 +71,7 @@ public class Biblioteca {
             livro.setDisponivel(false);  // Marca livro como emprestado
         }
     }
+
     //Registrar devolução
     public void registarDevolucao(int idEmprestimo, Date dataDevolucaoEfetiva) {
         for (Emprestimo e : emprestimos) {
@@ -68,7 +90,7 @@ public class Biblioteca {
     public ArrayList<Emprestimo> getEmprestimos() {
         return emprestimos;
     }
-    
+
     // Lista todos os livros
     public void listarLivros() {
         for (int i = 0; i < livros.size(); i++) {
@@ -89,4 +111,5 @@ public class Biblioteca {
             System.out.println(emprestimos.get(i).mostrarEmprestimo());
         }
     }
+
 }
