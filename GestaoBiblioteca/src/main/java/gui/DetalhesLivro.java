@@ -125,6 +125,8 @@ public class DetalhesLivro extends javax.swing.JDialog {
             }
         });
 
+        jButtoncancelar.setBackground(new java.awt.Color(204, 0, 0));
+        jButtoncancelar.setForeground(new java.awt.Color(255, 255, 255));
         jButtoncancelar.setText("Cancelar");
         jButtoncancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

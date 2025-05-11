@@ -2,28 +2,25 @@ package gui;
 
 import com.mycompany.gestaobiblioteca.Biblioteca;
 import com.mycompany.gestaobiblioteca.Emprestimo;
+import com.mycompany.gestaobiblioteca.Livro; // Importa Livro
+import com.mycompany.gestaobiblioteca.Membro; // Importa Membro
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent; // Para os mouseClicked dos JMenu
+import java.awt.event.MouseEvent;
 import java.util.Date;
-import java.text.SimpleDateFormat; // Para formatar datas
+import java.text.SimpleDateFormat;
 
 public class GestaoBiblioteca extends javax.swing.JFrame {
 
     private Biblioteca biblioteca;
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); // Formato para datas
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-    /**
-     * Creates new form GestaoBiblioteca
-     * @param biblioteca
-     */
     public GestaoBiblioteca(Biblioteca biblioteca) {
         this.biblioteca = biblioteca;
         initComponents();
-        setLocationRelativeTo(null); // Centra a janela
-        setTitle("Sistema de Gestão de Biblioteca"); // Adiciona um título à janela principal
-        atualizarEmprestimos();
+        setLocationRelativeTo(null);
+        setTitle("Sistema de Gestão de Biblioteca");
+        atualizarEmprestimos(); // Atualiza ao iniciar
     }
 
     @SuppressWarnings("unchecked")
@@ -168,9 +165,12 @@ public class GestaoBiblioteca extends javax.swing.JFrame {
 
     private void abrirGestaoEmprestimos() {
         GestaoEmprestimos emprestimosUI = new GestaoEmprestimos(this.biblioteca);
-        emprestimosUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Para não fechar a app toda
-        emprestimosUI.setLocationRelativeTo(this); // Centra em relação à janela principal
+        emprestimosUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        emprestimosUI.setLocationRelativeTo(this);
+        // Centra em relação à janela principal
         emprestimosUI.setVisible(true);
+
+        final GestaoBiblioteca estaJanelaPrincipal = this;
     }
 
     private void fecharAplicacao() {
@@ -188,52 +188,52 @@ public class GestaoBiblioteca extends javax.swing.JFrame {
     }
 
     public void atualizarEmprestimos() {
+        System.out.println("--- ATUALIZANDO EMPRÉSTIMOS NA JANELA PRINCIPAL ---"); // DEBUG
+        if (biblioteca == null) {
+            System.out.println("DEBUG: Instância da biblioteca é null em atualizarEmprestimos().");
+            jTextAreaEmprestimosRecentes.setText("Erro: Biblioteca não inicializada.");
+            jTextAreaDevolucoesProximas.setText("Erro: Biblioteca não inicializada.");
+            return;
+        }
+        System.out.println("Total de empréstimos na biblioteca: " + biblioteca.getEmprestimos().size()); // DEBUG
+
         StringBuilder emprestimosRecentesStr = new StringBuilder();
         StringBuilder devolucoesProximasStr = new StringBuilder();
-
         Date hoje = new Date();
-        // Para testar, vamos adicionar um empréstimo de exemplo se a lista estiver vazia
-        // REMOVER ISTO DEPOIS DE TESTAR A LIGAÇÃO COM O BACKEND
-        if (biblioteca.getEmprestimos().isEmpty() && biblioteca.getLivros().isEmpty() && biblioteca.getMembros().isEmpty()) {
-            System.out.println("Adicionando dados de teste para GestaoBiblioteca UI...");
-            com.mycompany.gestaobiblioteca.Livro lTeste = new com.mycompany.gestaobiblioteca.Livro("111-TESTE", "Livro de Teste UI", "Autor Teste");
-            com.mycompany.gestaobiblioteca.Membro mTeste = new com.mycompany.gestaobiblioteca.Membro("S999", "Utilizador", "Teste", "ui@teste.com");
-            biblioteca.adicionarLivro(lTeste);
-            biblioteca.adicionarMembro(mTeste);
-            
-            Date dataEmp = new Date(hoje.getTime() - (3 * 24 * 60 * 60 * 1000)); // Emprestado há 3 dias
-            Date dataDevPrev = new Date(hoje.getTime() + (2 * 24 * 60 * 60 * 1000)); // Devolução em 2 dias
-            biblioteca.registarEmprestimo(lTeste.getId(), mTeste.getId(), dataEmp, dataDevPrev);
-        }
-        // FIM DO BLOCO DE TESTE
 
         for (Emprestimo e : biblioteca.getEmprestimos()) {
-            // Para Empréstimos Recentes, podemos mostrar todos os ativos ou os últimos X
-            // Aqui, vamos mostrar todos os empréstimos para simplificar
-            String infoEmprestimo = String.format("ID: %d, Livro ID: %d, Membro ID: %d, Data Emp: %s, Prev. Dev: %s, Estado: %s",
-                e.getId(),
-                e.getIdLivro(),
-                e.getIdMembro(),
-                sdf.format(e.getDataEmprestimo()),
-                sdf.format(e.getDataDevolucaoPrevista()),
-                e.getEstado()
+            Livro livroDoEmprestimo = biblioteca.procurarLivroPorId(e.getIdLivro());
+            Membro membroDoEmprestimo = biblioteca.procurarMembroPorId(e.getIdMembro());
+
+            String tituloLivro = (livroDoEmprestimo != null) ? livroDoEmprestimo.getTitulo() : "Livro ID: " + e.getIdLivro();
+            String nomeMembro = (membroDoEmprestimo != null) ? membroDoEmprestimo.getNomeCompleto() : "Membro ID: " + e.getIdMembro();
+
+            String infoEmprestimo = String.format("ID Emp: %d, Livro: %s, Membro: %s, Data Emp: %s, Prev. Dev: %s, Estado: %s",
+                    e.getId(), tituloLivro, nomeMembro,
+                    sdf.format(e.getDataEmprestimo()), sdf.format(e.getDataDevolucaoPrevista()), e.getEstado()
             );
             emprestimosRecentesStr.append(infoEmprestimo).append("\n");
+            System.out.println("DEBUG: Adicionado a recentes: " + infoEmprestimo); // DEBUG
 
-            // Para Devoluções Próximas
-            if (e.getDataDevolucaoEfetiva() == null) { // Se ainda não foi devolvido
+            if (e.getDataDevolucaoEfetiva() == null) {
                 long diffMillis = e.getDataDevolucaoPrevista().getTime() - hoje.getTime();
                 long diasRestantes = diffMillis / (1000 * 60 * 60 * 24);
-
-                if (diasRestantes >= 0 && diasRestantes <= 3) { // Devolução nos próximos 0 a 3 dias
+                if (diasRestantes >= 0 && diasRestantes <= 3) {
                     devolucoesProximasStr.append(infoEmprestimo).append("\n");
+                    System.out.println("DEBUG: Adicionado a próximas devoluções: " + infoEmprestimo); // DEBUG
                 }
             }
         }
 
         jTextAreaEmprestimosRecentes.setText(emprestimosRecentesStr.toString());
         jTextAreaDevolucoesProximas.setText(devolucoesProximasStr.toString());
-
+        System.out.println("DEBUG: TextAreas da janela principal atualizadas."); // DEBUG
+        if (emprestimosRecentesStr.length() == 0) {
+            System.out.println("DEBUG: Nenhum empréstimo recente para mostrar.");
+        }
+        if (devolucoesProximasStr.length() == 0) {
+            System.out.println("DEBUG: Nenhuma devolução próxima para mostrar.");
+        }
     }
 
     public static void main(String args[]) {
@@ -244,15 +244,14 @@ public class GestaoBiblioteca extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (Exception ex) {
             java.util.logging.Logger.getLogger(GestaoBiblioteca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        
+
         java.awt.EventQueue.invokeLater(() -> {
-            Biblioteca bibliotecaCentral = new Biblioteca(); // Instância ÚNICA da biblioteca
+            Biblioteca bibliotecaCentral = new Biblioteca();
             new GestaoBiblioteca(bibliotecaCentral).setVisible(true);
         });
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

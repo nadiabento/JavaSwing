@@ -1,10 +1,103 @@
 package gui;
 
-public class DetalhesMembro extends javax.swing.JFrame {
+import com.mycompany.gestaobiblioteca.Biblioteca;
+import com.mycompany.gestaobiblioteca.Membro; // Importar a classe Membro
+import javax.swing.*;
 
-    
-    public DetalhesMembro() {
+public class DetalhesMembro extends javax.swing.JDialog {
+
+    private Biblioteca biblioteca;
+    private Membro membroParaOperacao;
+    private boolean edicao;
+
+    // Construtor para ADICIONAR novo membro
+    public DetalhesMembro(java.awt.Frame parent, boolean modal, Biblioteca biblioteca) {
+        super(parent, modal);
+        this.biblioteca = biblioteca;
+        this.membroParaOperacao = null; // Correto para novo membro
+        this.edicao = false;            // Correto para novo membro
         initComponents();
+        // Define a operação de fecho padrão APÓS initComponents
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Adicionar Novo Membro");
+        setLocationRelativeTo(parent);
+        // Limpar campos para garantir que estão vazios para um novo membro
+        jTextFieldNumSocio.setText("");
+        jTextFieldPrimeiroNome.setText("");
+        jTextFieldApelido.setText("");
+        jTextFieldEmail.setText("");
+        jButtonAdd.setText("Adicionar");
+    }
+
+    // Construtor para EDITAR membro existente
+    public DetalhesMembro(java.awt.Frame parent, boolean modal, Biblioteca biblioteca, Membro membroExistente) {
+        super(parent, modal);
+        this.biblioteca = biblioteca;
+        this.membroParaOperacao = membroExistente; // CORRIGIDO
+        this.edicao = true;                     // CORRIGIDO
+        initComponents();
+        // Define a operação de fecho padrão APÓS initComponents
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Editar Membro");
+        setLocationRelativeTo(parent);
+        carregarDadosMembro();
+        jButtonAdd.setText("Guardar Alterações");
+    }
+
+    private void carregarDadosMembro() {
+        if (membroParaOperacao != null) {
+            jTextFieldNumSocio.setText(membroParaOperacao.getNumeroSocio());
+            jTextFieldPrimeiroNome.setText(membroParaOperacao.getPrimeiroNome());
+            jTextFieldApelido.setText(membroParaOperacao.getApelido());
+            jTextFieldEmail.setText(membroParaOperacao.getEmail());
+        }
+    }
+
+    private void onConfirmar() {
+        String numSocio = jTextFieldNumSocio.getText().trim();
+        String primeiroNome = jTextFieldPrimeiroNome.getText().trim();
+        String apelido = jTextFieldApelido.getText().trim();
+        String email = jTextFieldEmail.getText().trim();
+
+        if (numSocio.isEmpty() || primeiroNome.isEmpty() || apelido.isEmpty() || email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos os campos devem ser preenchidos.", "Campos Vazios", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (!email.contains("@") || !email.contains(".")) {
+            JOptionPane.showMessageDialog(this, "Formato de email inválido.", "Email Inválido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (!edicao || (edicao && !membroParaOperacao.getNumeroSocio().equalsIgnoreCase(numSocio))) {
+            for (Membro m : biblioteca.getMembros()) {
+                if (m.getNumeroSocio().equalsIgnoreCase(numSocio)) {
+                    if (edicao && m.getId() == membroParaOperacao.getId()) {
+                        // É o mesmo membro, não há conflito.
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Já existe um membro com este Número de Sócio.", "Número de Sócio Duplicado", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }
+            }
+        }
+
+        if (!edicao) {
+            Membro novoMembro = new Membro(numSocio, primeiroNome, apelido, email);
+            biblioteca.adicionarMembro(novoMembro);
+            JOptionPane.showMessageDialog(this, "Membro adicionado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            membroParaOperacao.setNumeroSocio(numSocio);
+            membroParaOperacao.setPrimeiroNome(primeiroNome);
+            membroParaOperacao.setApelido(apelido);
+            membroParaOperacao.setEmail(email);
+            JOptionPane.showMessageDialog(this, "Membro atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        }
+        dispose();
+    }
+
+    private void onCancelar() {
+        dispose();
     }
 
     /**
@@ -16,37 +109,44 @@ public class DetalhesMembro extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextFieldNumSocio = new javax.swing.JTextField();
-        jTextFieldApelido = new javax.swing.JTextField();
         jTextFieldEmail = new javax.swing.JTextField();
-        jTextFieldPrimeiroNome = new javax.swing.JTextField();
-        jLabelNumSocio = new javax.swing.JLabel();
-        jLabelPrimeiroNome = new javax.swing.JLabel();
         jLabelApelido = new javax.swing.JLabel();
         jLabelEmail = new javax.swing.JLabel();
         jButtonAdd = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
+        jTextFieldApelido = new javax.swing.JTextField();
+        jTextFieldPrimeiroNome = new javax.swing.JTextField();
+        jLabelNumSocio = new javax.swing.JLabel();
+        jLabelPrimeiroNome = new javax.swing.JLabel();
+        jTextFieldNumSocio = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jTextFieldNumSocio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldNumSocioActionPerformed(evt);
-            }
-        });
-
-        jLabelNumSocio.setText("Número de Sócio");
-
-        jLabelPrimeiroNome.setText("Primeiro Nome");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabelApelido.setText("Apelido");
 
         jLabelEmail.setText("Email");
 
         jButtonAdd.setText("Adicionar");
+        jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddActionPerformed(evt);
+            }
+        });
 
+        jButtonCancelar.setBackground(new java.awt.Color(204, 0, 0));
+        jButtonCancelar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jButtonCancelar.setForeground(new java.awt.Color(255, 255, 255));
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
+
+        jLabelNumSocio.setText("Número de Sócio");
+
+        jLabelPrimeiroNome.setText("Primeiro Nome");
 
         jLabel5.setText("Detalhes do Membro");
 
@@ -57,24 +157,25 @@ public class DetalhesMembro extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 292, Short.MAX_VALUE)
-                        .addComponent(jButtonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabelEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelNumSocio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelPrimeiroNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelApelido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabelNumSocio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelPrimeiroNome, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelApelido)
+                            .addComponent(jLabelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldNumSocio)
+                            .addComponent(jTextFieldNumSocio, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
                             .addComponent(jTextFieldPrimeiroNome)
                             .addComponent(jTextFieldApelido)
-                            .addComponent(jTextFieldEmail))))
+                            .addComponent(jTextFieldEmail)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -98,29 +199,26 @@ public class DetalhesMembro extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelEmail))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancelar)
                     .addComponent(jButtonAdd))
-                .addGap(16, 16, 16))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextFieldNumSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNumSocioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldNumSocioActionPerformed
+    private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
+        onConfirmar();
+    }//GEN-LAST:event_jButtonAddActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        onCancelar();
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+   
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -128,21 +226,37 @@ public class DetalhesMembro extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DetalhesMembro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DetalhesMembro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DetalhesMembro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(DetalhesMembro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DetalhesMembro().setVisible(true);
+                // Para testar, precisas de uma instância de Biblioteca
+                Biblioteca bibliotecaTeste = new Biblioteca(); 
+                
+                // Testar o construtor de ADICIONAR
+                DetalhesMembro dialogAdicionar = new DetalhesMembro(new javax.swing.JFrame(), true, bibliotecaTeste);
+                dialogAdicionar.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        // System.exit(0); // Não fechar a aplicação toda ao testar um diálogo
+                        e.getWindow().dispose();
+                    }
+                });
+                // dialogAdicionar.setVisible(true); // Descomentar para testar adição
+
+                // Ou para testar o construtor de EDITAR (precisarias de um Membro existente)
+                Membro membroTesteParaEditar = new Membro("S001", "TestNome", "TestApelido", "test@edit.com");
+                bibliotecaTeste.adicionarMembro(membroTesteParaEditar);
+                DetalhesMembro dialogEditar = new DetalhesMembro(new javax.swing.JFrame(), true, bibliotecaTeste, membroTesteParaEditar);
+                 dialogEditar.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                         e.getWindow().dispose();
+                    }
+                });
+                dialogEditar.setVisible(true); // Descomentar para testar edição
             }
         });
     }

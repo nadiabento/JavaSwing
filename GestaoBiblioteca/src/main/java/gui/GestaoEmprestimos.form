@@ -43,7 +43,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jTextFieldDataEntrega" min="-2" pref="99" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButtonValidar" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButtonRegistarNovoEmprestimo" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="18" max="32767" attributes="0"/>
@@ -52,11 +52,11 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabelNovoEmprest" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="jTextFieldFiltro" max="32767" attributes="0"/>
+                              <Component id="jTextFieldFiltroHistoricoValor" max="32767" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jComboBoxMembro2" min="-2" pref="179" max="-2" attributes="0"/>
+                              <Component id="jComboBoxFiltroHistoricoCampo" min="-2" pref="179" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButtonProcurar" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButtonProcurarHistorico" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane1" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabelDevolucao" alignment="1" max="32767" attributes="0"/>
@@ -69,7 +69,7 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jComboBoxMembro1" alignment="0" min="-2" pref="174" max="-2" attributes="0"/>
+                          <Component id="jComboBoxMembroDevolucao" alignment="0" min="-2" pref="174" max="-2" attributes="0"/>
                           <Component id="jLabelMembro1" alignment="0" min="-2" pref="73" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -79,9 +79,9 @@
                               <EmptySpace min="-2" pref="278" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jComboBoxLivro1" min="-2" pref="205" max="-2" attributes="0"/>
+                              <Component id="jComboBoxLivroDevolucao" min="-2" pref="205" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jButtonValidar1" max="32767" attributes="0"/>
+                              <Component id="jButtonRegistarDevolucao" max="32767" attributes="0"/>
                               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -106,15 +106,15 @@
                   <Component id="jComboBoxMembro" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jComboBoxLivro" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jTextFieldDataEntrega" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonValidar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonRegistarNovoEmprestimo" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jLabelHistoricoEmprestimos" min="-2" pref="29" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jTextFieldFiltro" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jComboBoxMembro2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonProcurar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextFieldFiltroHistoricoValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboBoxFiltroHistoricoCampo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonProcurarHistorico" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="110" max="-2" attributes="0"/>
@@ -129,9 +129,9 @@
               </Group>
               <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jComboBoxMembro1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jComboBoxLivro1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonValidar1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboBoxMembroDevolucao" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboBoxLivroDevolucao" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonRegistarDevolucao" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="55" max="32767" attributes="0"/>
           </Group>
@@ -170,9 +170,6 @@
           </StringArray>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxMembroActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
@@ -193,16 +190,19 @@
       </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldDataEntrega">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="(DD-MM-AAAA)"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldDataEntregaActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButtonValidar">
+    <Component class="javax.swing.JButton" name="jButtonRegistarNovoEmprestimo">
       <Properties>
         <Property name="text" type="java.lang.String" value="Validar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonValidarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonRegistarNovoEmprestimoActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelHistoricoEmprestimos">
@@ -210,12 +210,12 @@
         <Property name="text" type="java.lang.String" value="Hist&#xf3;rico de Empr&#xe9;stimos"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextFieldFiltro">
+    <Component class="javax.swing.JTextField" name="jTextFieldFiltroHistoricoValor">
       <Properties>
         <Property name="text" type="java.lang.String" value="Filtro"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBoxMembro2">
+    <Component class="javax.swing.JComboBox" name="jComboBoxFiltroHistoricoCampo">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
@@ -226,17 +226,17 @@
           </StringArray>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxMembro2ActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JButton" name="jButtonProcurar">
+    <Component class="javax.swing.JButton" name="jButtonProcurarHistorico">
       <Properties>
         <Property name="text" type="java.lang.String" value="Procurar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonProcurarHistoricoActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
@@ -296,6 +296,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Exportar para Ficheiro"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonExportarFicheiroActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelDevolucao">
       <Properties>
@@ -312,7 +315,7 @@
         <Property name="text" type="java.lang.String" value="Livro"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBoxMembro1">
+    <Component class="javax.swing.JComboBox" name="jComboBoxMembroDevolucao">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
@@ -324,13 +327,13 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxMembro1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxMembroDevolucaoActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBoxLivro1">
+    <Component class="javax.swing.JComboBox" name="jComboBoxLivroDevolucao">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
@@ -345,12 +348,12 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JButton" name="jButtonValidar1">
+    <Component class="javax.swing.JButton" name="jButtonRegistarDevolucao">
       <Properties>
         <Property name="text" type="java.lang.String" value="Validar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonValidar1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonRegistarDevolucaoActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

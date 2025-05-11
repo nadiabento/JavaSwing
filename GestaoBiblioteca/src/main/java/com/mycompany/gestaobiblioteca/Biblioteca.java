@@ -38,19 +38,52 @@ public class Biblioteca {
         return membros;
     }
 
-   
     //remover os livos, exceto se este esteja atualmente emprestado.
-    public void removerLivroPorId(int id) {
+    public boolean removerLivroPorId(int id) {
+        Livro livroParaRemover = procurarLivroPorId(id);
+        if (livroParaRemover == null) {
+            System.out.println("BACKEND: Tentativa de remover livro ID " + id + " que não foi encontrado.");
+            return false; // Livro não encontrado
+        }
         for (Emprestimo emprestimo : emprestimos) {
             if (emprestimo.getIdLivro() == id && emprestimo.getDataDevolucaoEfetiva() == null) {
-                System.out.println("Tentativa de remover livro (ID: " + id + ") que está emprestado. Remoção não permitida.");
-                return;
+                System.out.println("BACKEND: Tentativa de remover livro (ID: " + id + ") que está emprestado. Remoção não permitida.");
+                return false; // Não remove se estiver emprestado
             }
-
         }
-        livros.removeIf(livro -> livro.getId() == id);
+        boolean removido = livros.remove(livroParaRemover); // remove(Object) retorna boolean
+        if (removido) {
+            System.out.println("BACKEND: Livro ID " + id + " removido com sucesso.");
+        } else {
+            // Isto não deveria acontecer se o livro foi encontrado e não estava emprestado,
+            // mas é uma verificação extra.
+            System.out.println("BACKEND: Falha ao remover livro ID " + id + " da lista (inesperado).");
+        }
+        return removido;
     }
-    // Procurar membro por ID
+
+    public boolean removerMembroPorId(int id) {
+        Membro membroParaRemover = procurarMembroPorId(id);
+        if (membroParaRemover == null) {
+            System.out.println("Tentativa de remover membro ID " + id + " que não foi encontrado.");
+            return false; // Membro não encontrado
+        }
+
+        // Verificar se o membro tem empréstimos ativos
+        for (Emprestimo emprestimo : emprestimos) {
+            if (emprestimo.getIdMembro() == id && emprestimo.getDataDevolucaoEfetiva() == null) {
+                System.out.println("BACKEND: Membro ID " + id + " não pode ser removido pois tem empréstimos ativos.");
+                return false; // Não remove se tiver empréstimos ativos
+            }
+        }
+        boolean removido = membros.remove(membroParaRemover);
+        if (removido) {
+            System.out.println("BACKEND: Membro ID " + id + " removido com sucesso.");
+        } else {
+            System.out.println("BACKEND: Falha ao remover membro ID " + id + " da lista (inesperado).");
+        }
+        return removido;
+    }// Procurar membro por ID
 
     public Membro procurarMembroPorId(int id) {
         for (int i = 0; i < membros.size(); i++) {
@@ -63,27 +96,32 @@ public class Biblioteca {
     }
 
     // Registrar empréstimo (verifica se o livro está disponível)
-    public void registarEmprestimo(int idLivro, int idMembro, Date dataEmprestimo, Date dataDevolucaoPrevista) {
+    public boolean registarEmprestimo(int idLivro, int idMembro, Date dataEmprestimo, Date dataDevolucaoPrevista) {
+
         Livro livro = procurarLivroPorId(idLivro);
-        if (livro != null && livro.isDisponivel()) {
+        Membro membro = procurarMembroPorId(idMembro); // Importante verificar o membro
+
+        if (livro != null && membro != null && livro.isDisponivel()) {
             Emprestimo emprestimo = new Emprestimo(idLivro, idMembro, dataEmprestimo, dataDevolucaoPrevista);
             emprestimos.add(emprestimo);
-            livro.setDisponivel(false);  // Marca livro como emprestado
+            livro.setDisponivel(false);
+            return true;
         }
+        return false;
     }
 
-    //Registrar devolução
-    public void registarDevolucao(int idEmprestimo, Date dataDevolucaoEfetiva) {
+    public boolean registarDevolucao(int idEmprestimo, Date dataDevolucaoEfetiva) {
         for (Emprestimo e : emprestimos) {
-            if (e.getId() == idEmprestimo) {
+            if (e.getId() == idEmprestimo && e.getDataDevolucaoEfetiva() == null) { // Só devolve se não estiver já devolvido
                 e.registrarDevolucao(dataDevolucaoEfetiva);
                 Livro livro = procurarLivroPorId(e.getIdLivro());
                 if (livro != null) {
                     livro.setDisponivel(true);
                 }
-                break;
+                return true; // DIZ QUE FOI UM SUCESSO
             }
         }
+        return false; // DIZ QUE FALHOU (não encontrou o empréstimo ou já estava devolvido)
     }
 
     // Retorna todos os empréstimos

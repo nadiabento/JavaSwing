@@ -27,7 +27,7 @@ public class GestaoLivros extends javax.swing.JFrame {
 
     private void configurarTabela() {
         tableModelLivros = (DefaultTableModel) jTableLivros.getModel(); // Usar jTableLivros
-        
+
     }
 
     private void configurarFiltro() {
@@ -174,16 +174,18 @@ public class GestaoLivros extends javax.swing.JFrame {
 
                 if (confirm == JOptionPane.YES_OPTION) {
 
-                    this.biblioteca.removerLivroPorId(idLivroParaRemover);
+                    boolean removidoComSucesso = this.biblioteca.removerLivroPorId(livroParaRemover.getId()); // Usa o ID do livro
 
-                    atualizarTabelaLivros(this.biblioteca.getLivros());
-                    JOptionPane.showMessageDialog(this, "Livro removido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    if (removidoComSucesso) {
+                        atualizarTabelaLivros(this.biblioteca.getLivros());
+                        JOptionPane.showMessageDialog(this, "Livro removido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Não foi possível remover o livro.\nVerifique se o livro ainda existe ou se há outras restrições.", "Falha ao Remover", JOptionPane.ERROR_MESSAGE);
                 }
-            } else {
-                JOptionPane.showMessageDialog(this, "Não foi possível encontrar o livro selecionado para remover.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Por favor, selecione um livro para remover.", "Nenhum Livro Selecionado", JOptionPane.WARNING_MESSAGE);
+
         }
     }
 
