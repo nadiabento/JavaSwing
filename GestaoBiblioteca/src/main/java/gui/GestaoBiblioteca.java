@@ -33,6 +33,7 @@ public class GestaoBiblioteca extends javax.swing.JFrame {
         jTextAreaDevolucoesProximas = new javax.swing.JTextArea();
         jLabelEmprestimosRecentes = new javax.swing.JLabel();
         jLabelDevolucoesProximas = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
         jMenuBarPrincipal = new javax.swing.JMenuBar();
         jMenuMembros = new javax.swing.JMenu();
         jMenuLivros = new javax.swing.JMenu();
@@ -54,6 +55,10 @@ public class GestaoBiblioteca extends javax.swing.JFrame {
         jLabelEmprestimosRecentes.setText("Emprestimos Recentes");
 
         jLabelDevolucoesProximas.setText("Devoluções Próximas");
+
+        jSeparator1.setForeground(new java.awt.Color(102, 102, 102));
+
+        jMenuBarPrincipal.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jMenuMembros.setText("Membros");
         jMenuMembros.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -79,6 +84,7 @@ public class GestaoBiblioteca extends javax.swing.JFrame {
         });
         jMenuBarPrincipal.add(jMenuEmprestimos);
 
+        jMenuExit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jMenuExit.setText("Exit");
         jMenuExit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -104,15 +110,17 @@ public class GestaoBiblioteca extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
+            .addComponent(jSeparator1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
                 .addComponent(jLabelEmprestimosRecentes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jLabelDevolucoesProximas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -264,6 +272,7 @@ public class GestaoBiblioteca extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuMembros;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextAreaDevolucoesProximas;
     private javax.swing.JTextArea jTextAreaEmprestimosRecentes;
     // End of variables declaration//GEN-END:variables
