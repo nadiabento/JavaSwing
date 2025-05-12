@@ -172,14 +172,20 @@ public class GestaoBiblioteca extends javax.swing.JFrame {
     }
 
     private void abrirGestaoEmprestimos() {
-        GestaoEmprestimos emprestimosUI = new GestaoEmprestimos(this.biblioteca);
-        emprestimosUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        emprestimosUI.setLocationRelativeTo(this);
-        // Centra em relação à janela principal
-        emprestimosUI.setVisible(true);
+    GestaoEmprestimos emprestimosUI = new GestaoEmprestimos(this.biblioteca);
+    emprestimosUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    emprestimosUI.setLocationRelativeTo(this);
+    emprestimosUI.setVisible(true);
 
-        final GestaoBiblioteca estaJanelaPrincipal = this;
-    }
+    // Atualiza a lista de empréstimos ao fechar a janela de empréstimos
+    emprestimosUI.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosed(java.awt.event.WindowEvent e) {
+            atualizarEmprestimos();
+        }
+    });
+}
+
 
     private void fecharAplicacao() {
         int resposta = JOptionPane.showConfirmDialog(
