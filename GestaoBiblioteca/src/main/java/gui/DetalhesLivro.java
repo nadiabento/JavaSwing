@@ -47,12 +47,7 @@ public class DetalhesLivro extends javax.swing.JDialog {
         }
     }
 
-    // Este método não é mais necessário se a lógica for feita em onConfirmar()
-    /*
-    public Livro getLivroCriado() {
-        return livroParaOperacao; // Ou o livro que foi criado/editado
-    }
-     */
+    
     private void onConfirmar() {
         String isbn = jTextField_ISBNLivro.getText().trim();
         String titulo = jTextFieldTituloLivro.getText().trim();

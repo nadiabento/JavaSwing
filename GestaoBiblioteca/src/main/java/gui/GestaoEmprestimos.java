@@ -345,6 +345,7 @@ public class GestaoEmprestimos extends javax.swing.JFrame {
             }
         });
 
+        jButtonRegistarNovoEmprestimo.setBackground(new java.awt.Color(153, 255, 153));
         jButtonRegistarNovoEmprestimo.setText("Validar");
         jButtonRegistarNovoEmprestimo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -359,6 +360,7 @@ public class GestaoEmprestimos extends javax.swing.JFrame {
 
         jComboBoxFiltroHistoricoCampo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jButtonProcurarHistorico.setBackground(new java.awt.Color(153, 255, 153));
         jButtonProcurarHistorico.setText("Procurar");
         jButtonProcurarHistorico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -402,6 +404,7 @@ public class GestaoEmprestimos extends javax.swing.JFrame {
 
         jComboBoxLivroDevolucao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jButtonRegistarDevolucao.setBackground(new java.awt.Color(153, 255, 153));
         jButtonRegistarDevolucao.setText("Validar");
         jButtonRegistarDevolucao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

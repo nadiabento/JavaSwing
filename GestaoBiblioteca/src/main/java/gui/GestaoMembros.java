@@ -26,25 +26,23 @@ public class GestaoMembros extends javax.swing.JFrame {
         atualizarTabelaMembros(this.biblioteca.getMembros()); // Popula a tabela inicialmente
     }
 
-    // Construtor padrão gerado pelo NetBeans (pode ser removido se não for usado)
-    // Se o NetBeans insistir em mantê-lo, certifica-te que não é chamado sem uma instância de Biblioteca.
-    public GestaoMembros() {
-        // Este construtor não deve ser usado diretamente se a lógica depende da 'biblioteca'.
-        // Se for chamado, a 'biblioteca' será null, causando NullPointerExceptions.
-        // Considera lançar uma exceção ou chamar o outro construtor com uma nova Biblioteca (para design time).
-        this(new Biblioteca()); // Exemplo: para permitir abrir no Design Mode do NetBeans
+    
+    
+    public GestaoMembros() {        
+       
+        this(new Biblioteca()); 
         System.out.println("AVISO: GestaoMembros chamado sem instância de Biblioteca. Usando uma nova.");
-        // Ou melhor ainda, remova este construtor se não for estritamente necessário pelo NetBeans Design.
+        
     }
 
     private void configurarTabelaMembros() {
-        // Certifica-te que jTable1 no Design Mode foi renomeado para jTableMembros
+        
         tableModelMembros = (DefaultTableModel) jTableMembros.getModel();
-        // Definir que as células não são editáveis diretamente na tabela (feito na declaração do modelo)
+        
     }
 
     private void configurarFiltroMembros() {
-        // Certifica-te que jComboBox1 no Design Mode foi renomeado para jComboBoxFiltroCampoMembro
+        
         jComboBoxFiltroCampoMembro.setModel(new DefaultComboBoxModel<>(new String[]{"Nome", "Número Sócio", "Email"}));
         if (jComboBoxFiltroCampoMembro.getItemCount() > 0) {
             jComboBoxFiltroCampoMembro.setSelectedIndex(0); // Padrão para "Nome"
@@ -63,13 +61,13 @@ public class GestaoMembros extends javax.swing.JFrame {
                 membro.getNumeroSocio(),
                 membro.getNomeCompleto(),
                 membro.getEmail()
-            // Adicionar mais colunas se necessário, conforme a imagem (Número, Nome, Contacto)
+            
             });
         }
     }
 
     private void procurarMembros() {
-        String termoFiltro = jTextFieldFiltroMembro.getText().toLowerCase().trim(); // Usar jTextFieldFiltroMembro
+        String termoFiltro = jTextFieldFiltroMembro.getText().toLowerCase().trim(); 
         String campoSelecionado = (String) jComboBoxFiltroCampoMembro.getSelectedItem();
 
         if (termoFiltro.isEmpty()) {
