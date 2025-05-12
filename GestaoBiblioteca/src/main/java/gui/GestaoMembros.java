@@ -217,7 +217,17 @@ public class GestaoMembros extends javax.swing.JFrame {
             new String [] {
                 "Número", "Nome", "Contacto"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableMembros.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTableMembros.setEnabled(false);
         jScrollPane1.setViewportView(jTableMembros);
 
         jButtonAddMembro.setText("Adicionar Membro");

@@ -224,7 +224,15 @@ public class GestaoLivros extends javax.swing.JFrame {
             new String [] {
                 "Título", "ISBN", "Autor", "Estado"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTableLivros);
 
         jButtonAddLivro.setText("Adicionar livro");
