@@ -227,7 +227,6 @@ public class GestaoMembros extends javax.swing.JFrame {
             }
         });
         jTableMembros.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTableMembros.setEnabled(false);
         jScrollPane1.setViewportView(jTableMembros);
 
         jButtonAddMembro.setText("Adicionar Membro");
