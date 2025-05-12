@@ -21,8 +21,18 @@ public class GestaoBiblioteca extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setTitle("Sistema de Gestão de Biblioteca");
         atualizarEmprestimos(); // Atualiza ao iniciar
-    }
+        
+        Livro l1 = new Livro("978-0321765723", "Effective Java", "Joshua Bloch");
+        Membro maria = new Membro("S001", "Maria", "Santos", "maria@email.com");
 
+        biblioteca.adicionarLivro(l1);
+        biblioteca.adicionarMembro(maria);
+
+        biblioteca.listarLivros();
+        biblioteca.listarMembros();
+        biblioteca.listarEmprestimos();
+    }
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
