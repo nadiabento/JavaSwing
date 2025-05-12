@@ -6,7 +6,7 @@ import com.mycompany.gestaobiblioteca.Livro;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
-import java.util.stream.Collectors; // Para o filtro, se preferir
+import java.util.stream.Collectors; 
 
 public class GestaoLivros extends javax.swing.JFrame {
 
@@ -109,7 +109,6 @@ public class GestaoLivros extends javax.swing.JFrame {
             // IMPORTANTE: Obter o livro da lista original da biblioteca,
             // especialmente se a tabela estiver filtrada ou ordenada.
             // Uma forma mais robusta é obter o ISBN/ID da linha selecionada e procurar na biblioteca.
-            // Por agora, vamos assumir que a seleção corresponde ao índice se não houver filtro complexo.
             // Se a tabela for filtrada, este método de get(selectedRow) pode dar o livro errado.
             // Vamos pegar o ISBN da tabela e procurar o livro.
             String isbnSelecionado = (String) tableModelLivros.getValueAt(selectedRow, 1); // Coluna ISBN é a 1
@@ -144,7 +143,7 @@ public class GestaoLivros extends javax.swing.JFrame {
             for (Livro livro : this.biblioteca.getLivros()) {
                 if (livro.getIsbn().equals(isbnSelecionado)) {
                     livroParaRemover = livro;
-                    idLivroParaRemover = livro.getId(); // Assumindo que o backend tem removerPorId
+                    idLivroParaRemover = livro.getId(); 
                     break;
                 }
             }

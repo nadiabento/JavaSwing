@@ -14,8 +14,8 @@ public class DetalhesMembro extends javax.swing.JDialog {
     public DetalhesMembro(java.awt.Frame parent, boolean modal, Biblioteca biblioteca) {
         super(parent, modal);
         this.biblioteca = biblioteca;
-        this.membroParaOperacao = null; // Correto para novo membro
-        this.edicao = false;            // Correto para novo membro
+        this.membroParaOperacao = null; 
+        this.edicao = false;            
         initComponents();
         // Define a operação de fecho padrão APÓS initComponents
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -33,8 +33,8 @@ public class DetalhesMembro extends javax.swing.JDialog {
     public DetalhesMembro(java.awt.Frame parent, boolean modal, Biblioteca biblioteca, Membro membroExistente) {
         super(parent, modal);
         this.biblioteca = biblioteca;
-        this.membroParaOperacao = membroExistente; // CORRIGIDO
-        this.edicao = true;                     // CORRIGIDO
+        this.membroParaOperacao = membroExistente; 
+        this.edicao = true;
         initComponents();
         // Define a operação de fecho padrão APÓS initComponents
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -251,9 +251,9 @@ public class DetalhesMembro extends javax.swing.JDialog {
                         e.getWindow().dispose();
                     }
                 });
-                // dialogAdicionar.setVisible(true); // Descomentar para testar adição
+                
 
-                // Ou para testar o construtor de EDITAR (precisarias de um Membro existente)
+                //  para testar o construtor de EDITAR (precisarias de um Membro existente)
                 Membro membroTesteParaEditar = new Membro("S001", "TestNome", "TestApelido", "test@edit.com");
                 bibliotecaTeste.adicionarMembro(membroTesteParaEditar);
                 DetalhesMembro dialogEditar = new DetalhesMembro(new javax.swing.JFrame(), true, bibliotecaTeste, membroTesteParaEditar);

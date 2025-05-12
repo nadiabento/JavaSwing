@@ -227,6 +227,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButtonRegistarNovoEmprestimo">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="99" green="ff" red="99" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Validar"/>
       </Properties>
       <Events>
@@ -263,6 +266,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButtonProcurarHistorico">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="99" green="ff" red="99" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Procurar"/>
       </Properties>
       <Events>
@@ -384,6 +390,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButtonRegistarDevolucao">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="99" green="ff" red="99" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Validar"/>
       </Properties>
       <Events>
