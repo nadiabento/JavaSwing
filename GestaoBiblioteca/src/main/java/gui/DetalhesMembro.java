@@ -65,7 +65,7 @@ public class DetalhesMembro extends javax.swing.JDialog {
         }
 
         if (!email.contains("@") || !email.contains(".")) {
-            JOptionPane.showMessageDialog(this, "Formato de email inválido.", "Email Inválido", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Formato de email inválido: Falta o ( @ ) ou um ( . )", "Email Inválido", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -81,6 +81,11 @@ public class DetalhesMembro extends javax.swing.JDialog {
                 }
             }
         }
+        if (!numSocio.matches("\\d+")){
+            JOptionPane.showMessageDialog(this, " O número de Sócios só aceita Números Inteiros!!", " Número inválido ", JOptionPane.ERROR_MESSAGE);
+        
+        }
+         
 
         if (!edicao) {
             Membro novoMembro = new Membro(numSocio, primeiroNome, apelido, email);
